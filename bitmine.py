@@ -24,13 +24,13 @@ SOFTWARE.
 https://github.com/sourcecode347/Bitcoin-cli_Solo_Miner/
 '''
 
-
 from hashlib import sha256
 import time as t
 import subprocess
 import json,sys
 import threading,os
-
+global begin
+begin = t.time()
 def executeCMD(cmd):
     try:
         proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
@@ -44,10 +44,10 @@ def executeCMD(cmd):
 def SHA256(text):
     return sha256(text.encode("ascii")).hexdigest()
     
-MAX_NONCE=10000000
+MAX_NONCE=100000
 def mine(block_number,transaction,previous_hash,prefix_zeros):
     prefix_str='0'*prefix_zeros
-    print(prefix_str)
+    #print(prefix_str)
     for nonce in range(MAX_NONCE):
         text= str(block_number) + transaction + previous_hash + str(nonce)
         hash = SHA256(text)
@@ -57,7 +57,10 @@ def mine(block_number,transaction,previous_hash,prefix_zeros):
             executeCMD("bitcoin-cli submitblock "+hash)
             return hash
         nonce+=1
-    print("Could not find a hash in the given range of upto", MAX_NONCE)
+    seconds = t.time() - begin
+    print("Could not find a hash in the given range of upto", MAX_NONCE , "in "+str(seconds)+" Seconds")
+    hashrate = MAX_NONCE / seconds
+    print ( "HashRate : "+('%.2f' % (hashrate/1024) )+" KHs")
 
 while True:
     a = executeCMD("bitcoin-cli getchaintips")
@@ -96,5 +99,6 @@ while True:
     print(txhashes[0])
     for x in txhashes:
         print(x)
+        begin=t.time()
         mine(int(a["height"])+1,x,a["hash"],19)
 
