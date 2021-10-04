@@ -4,7 +4,7 @@ Python3 Bitcoin Solo Miner
 A simple example how to make a solo btc miner via bitcoin-cli commands
 
 <br>
-<img src="btc-cli-solo-miner.png" style="width:95%;height:auto;"></img>
+<img src="btc-solo-miner.png" style="width:95%;height:auto;"></img>
 <br>
 
 # License
