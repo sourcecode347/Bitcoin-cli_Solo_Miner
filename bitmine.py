@@ -44,7 +44,7 @@ def executeCMD(cmd):
 def SHA256(text):
     return sha256(text.encode("ascii")).hexdigest()
     
-MAX_NONCE=100000
+MAX_NONCE=1000000
 def mine(block_number,transaction,previous_hash,prefix_zeros):
     prefix_str='0'*prefix_zeros
     #print(prefix_str)
@@ -80,7 +80,8 @@ while True:
 
     txcounter = 0
     txhashes = []
-    for x in a["tx"]:
+    txhashes = a["tx"]
+    '''for x in a["tx"]:
         n=x
         txcounter+=1
         if txcounter%2==1:
@@ -92,7 +93,7 @@ while True:
             txhashes.append(transactions)
         if txcounter==2:
             breaker=1
-            #break
+            #break'''
         
     print(int(a["height"])+1)
     print(a["hash"])
